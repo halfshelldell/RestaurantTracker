@@ -45,7 +45,7 @@ public class Main {
                         user = new User(name, pass);
                         users.put(name, user);
                     }
-                    else if (!name.equals(user.name)) {
+                    else if (!pass.equals(user.password)) {
                         throw new Exception("Wrong password");
                     }
 
@@ -94,6 +94,25 @@ public class Main {
                     return "";
                 }
         );
+        Spark.post(
+                "/delete-restaurant",
+                (request, response) -> {
+                    Session session = request.session();
+                    String username = session.attribute("username");
+                    if (username == null) {
+                        throw new Exception("Not logged in");
+                    }
 
+                    int id = Integer.valueOf(request.queryParams("id"));
+
+                    User user = users.get(username);
+                    if (id < 0 || id - 1 >= user.restaurants.size() - 1) {
+                        throw new Exception("Invalid id");
+                    }
+                    user.restaurants.remove(id - 1);
+                    response.redirect("/");
+                    return "";
+                }
+        );
     }
 }

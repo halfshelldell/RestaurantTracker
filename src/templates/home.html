@@ -5,6 +5,7 @@
     <title>Home</title>
 </head>
 <body>
+
 <form action="/create-restaurant" method="post">
     <input type="text" name="name" placeholder="Name">
     <input type="text" name="location" placeholder="Location">
@@ -23,10 +24,15 @@
     <button type="submit">Logout</button>
 </form>
 
-<ul type="square">
+<form action="/delete-restaurant" method="post">
+    <input type="number" name="id" placeholder="#">
+    <button type="submit">Delete Restaurant</button>
+</form>
+
+<ol>
     {{#restaurants}}
     <li><b>{{name}}</b> - {{location}} - {{rating}}/5 - {{comment}}</li>
     {{/restaurants}}
-</ul>
+</ol>
 </body>
 </html>
