@@ -106,7 +106,7 @@ public class Main {
                     int id = Integer.valueOf(request.queryParams("id"));
 
                     User user = users.get(username);
-                    if (id < 0 || id - 1 >= user.restaurants.size() - 1) {
+                    if (id <= 0 || id - 1 >= user.restaurants.size()) {
                         throw new Exception("Invalid id");
                     }
                     user.restaurants.remove(id - 1);
