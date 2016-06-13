@@ -1,17 +1,39 @@
 package com.ironyard;
 
+import org.h2.tools.Server;
 import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
 import spark.template.mustache.MustacheTemplateEngine;
 
+import java.sql.*;
 import java.util.HashMap;
 
 public class Main {
 
     static HashMap<String, User> users = new HashMap<>();
 
-    public static void main(String[] args) {
+    public static void insertRestaurant(Connection conn, String name, String location, String comment) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO restaurants VALUES (NULL, ?, ?, 3, ?)");
+        stmt.setString(1, name);
+        stmt.setString(2, location);
+        stmt.setString(3, comment);
+        stmt.execute();
+    }
+
+    public static void deleteRestaurant (Connection conn, int id) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM restaurants WHERE id = ?");
+        stmt.setInt(1, id);
+        stmt.execute();
+    }
+
+    public static void main(String[] args) throws SQLException {
+        Server.createWebServer().start();
+        Connection conn = DriverManager.getConnection("jdbc:h2:./main");
+
+        Statement stmt = conn.createStatement();
+        stmt.execute("CREATE TABLE IF NOT EXISTS todos (id IDENTITY, name VARCHAR, location VARCHAR, rating INT, comment VARCHAR )");
+
         Spark.init();
         Spark.get(
                 "/",
@@ -79,7 +101,8 @@ public class Main {
                     }
 
                     Restaurant r = new Restaurant(name, location, rating, comment);
-                    user.restaurants.add(r);
+                    /*user.restaurants.add(r);*/
+                    insertRestaurant(conn, name, location, comment);
 
                     response.redirect("/");
                     return "";
@@ -109,7 +132,8 @@ public class Main {
                     if (id <= 0 || id - 1 >= user.restaurants.size()) {
                         throw new Exception("Invalid id");
                     }
-                    user.restaurants.remove(id - 1);
+                    //user.restaurants.remove(id - 1);
+                    deleteRestaurant (conn, id);
                     response.redirect("/");
                     return "";
                 }

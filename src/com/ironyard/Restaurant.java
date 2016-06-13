@@ -4,6 +4,7 @@ package com.ironyard;
  * Created by illladell on 6/7/16.
  */
 public class Restaurant {
+    int id;
     String name;
     String location;
     int rating;
