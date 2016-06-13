@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<form action="edit-restaurant" method="post">
+    <input type="hidden" name="id" value="{{id}}"/>
+    <input type="text" name="name" placeholder="Edit restaurant name"/>
+    <input type="text" name="location" placeholder="Edit location"/>
+    <input type="number" name="rating" placeholder="Edit rating"/>
+    <input type="text" name="comment" placeholder="Edit comment"/>
+    <button class="submit-button" type="submit">Edit</button>
+</form>
+</body>
+</html>

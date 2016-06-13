@@ -24,15 +24,14 @@
     <button type="submit">Logout</button>
 </form>
 
-<form action="/delete-restaurant" method="post">
-    <input type="number" name="id" placeholder="#">
+{{#restaurants}}
+    <b>{{name}}</b> - {{location}} - {{rating}}/5 - {{comment}}
+    <a href="/edit?id={{id}}"><button style="display: inline-block" type="button">Edit</button></a>
+    <form style="display: inline-block" action="/delete-restaurant" method="post">
+    <input type="hidden" name="id" value="{{id}}"/>
     <button type="submit">Delete Restaurant</button>
-</form>
+</form><br>
+{{/restaurants}}
 
-<ol>
-    {{#restaurants}}
-    <li><b>{{name}}</b> - {{location}} - {{rating}}/5 - {{comment}}</li>
-    {{/restaurants}}
-</ol>
 </body>
 </html>
